@@ -20,7 +20,7 @@ function NavbarComponent() {
       </Container>
     </Navbar>
   );
-  <Outlet/>
+  //<Outlet/>
 }
 
 export default NavbarComponent;
