@@ -1,13 +1,39 @@
-import './App.css';
+import React from 'react';
+import styled from 'styled-components';
+
 import NavbarComponent from './components/Navbar';
-import TabsExample from './components/ListGroups';
+import SidebarComponent from './components/Sidebar';
+import CardComponent from './components/TaskCard'
+
+const AppContainer = styled.div`
+  .split-screen {
+    display: flex;
+    height: 100vh;
+  }
+
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+  }
+`;
+
+const MainContentArea = styled.div`
+  flex: 1;
+  padding: 20px;
+`;
 
 function App() {
   return (
-    <div className="App">
+    <AppContainer className="App">
       <NavbarComponent />
-      <TabsExample />
-    </div>
+      <div className="split-screen">
+        <SidebarComponent />
+        <MainContentArea>
+          <CardComponent />
+        </MainContentArea>
+      </div>
+    </AppContainer>
   );
 }
 

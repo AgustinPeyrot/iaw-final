@@ -1,9 +1,10 @@
 const apiKey = process.env.REACT_APP_AIRTABLE_API_KEY;
 const baseId = process.env.REACT_APP_AIRTABLE_BASEID;
 const tableId = process.env.REACT_APP_AIRTABLE_TABLEID;
+const url = 'https://api.airtable.com/v0';
 
 export const getTareas = () => {
-    return fetch(`https://api.airtable.com/v0/${baseId}/${tableId}?view=Grid%20view`, {
+    return fetch(`${url}/${baseId}/${tableId}?view=Grid%20view`, {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${apiKey}`,
@@ -16,7 +17,6 @@ export const getTareas = () => {
         return response.json();
     })
     .then(data => {
-        // para trabajar con los datos
         console.log('Records:', data.records);
         return data.records;
     })
@@ -27,7 +27,7 @@ export const getTareas = () => {
 }
 
 export const createTarea = (nombre, descripcion, prioridad, fv, duracion, estado) => {
-    fetch(`https://api.airtable.com/v0/${baseId}/${tableId}`, {
+    fetch(`${url}/${baseId}/${tableId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
@@ -67,7 +67,7 @@ export const createTarea = (nombre, descripcion, prioridad, fv, duracion, estado
 }
 
 export const deleteTarea = (tareaId) => {
-    fetch(`https://api.airtable.com/v0/${baseId}/${tableId}/${tareaId}`, {
+    fetch(`${url}/${baseId}/${tableId}/${tareaId}`, {
         method: 'DELETE',
         headers: {
             'Authorization': `Bearer ${apiKey}`
@@ -82,4 +82,25 @@ export const deleteTarea = (tareaId) => {
     .catch(error => {
         console.error('Error:', error.message);
     });
+}
+
+export const getTarea = (tareaId) => {
+  fetch(`${url}/${baseId}/${tableId}/${tareaId}`, {
+      method: 'GET',
+      headers: {
+          'Authorization': `Bearer ${apiKey}`
+      }
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Error al obtener la tarea');
+      }
+      return response.json();
+  })
+  .then(data => {
+      console.log('Tarea obtenida con éxito:', data);
+  })
+  .catch(error => {
+      console.error('Error:', error.message);
+  });
 }
