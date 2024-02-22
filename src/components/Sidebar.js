@@ -31,7 +31,10 @@ function SidebarComponent() {
       return;
     }
 
-    createTarea(titulo, descripcion, prioridad, fechaVencimiento, 6000, "Nueva");
+    createTarea(titulo, descripcion, prioridad, fechaVencimiento, 6000, "Nueva")
+    .then(idTarea => {
+      console.log('ID de la tarea creada:', idTarea);
+    })
     console.log("Formulario enviado");
   };
 

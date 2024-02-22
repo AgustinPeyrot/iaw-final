@@ -27,28 +27,25 @@ export const getTareas = () => {
 }
 
 export const createTarea = (nombre, descripcion, prioridad, fv, duracion, estado) => {
-    fetch(`${url}/${baseId}/${tableId}`, {
+    return new Promise((resolve, reject) => {
+      fetch(`${url}/${baseId}/${tableId}`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(
-            {
-                records: [
-                    {
-                      fields: {
-                        "Nombre": nombre,
-                        "Descripcion": descripcion,
-                        "Prioridad": prioridad,
-                        "Fecha-Vencimiento": fv,
-                        "Duracion": duracion,
-                        "Estado": estado
-                      }
-                    }
-                  ]
+        body: JSON.stringify({
+          records: [{
+            fields: {
+              "Nombre": nombre,
+              "Descripcion": descripcion,
+              "Prioridad": prioridad,
+              "Fecha-Vencimiento": fv,
+              "Duracion": duracion,
+              "Estado": estado
             }
-        )
+          }]
+        })
       })
       .then(response => {
         if (!response.ok) {
@@ -57,14 +54,16 @@ export const createTarea = (nombre, descripcion, prioridad, fv, duracion, estado
         return response.json();
       })
       .then(data => {
-        data.records.forEach(record => {
-          console.log(record.id);
-        });
+        const idTarea = data.records[0].id;
+        resolve(idTarea);
       })
       .catch(error => {
         console.error('Problema con la operacion de recuperacion:', error);
+        reject(error);
       });
-}
+    });
+  }
+  
 
 export const deleteTarea = (tareaId) => {
     fetch(`${url}/${baseId}/${tableId}/${tareaId}`, {
