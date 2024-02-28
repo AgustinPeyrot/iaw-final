@@ -15,6 +15,7 @@ const AppContainer = styled.div`
 const MainContentArea = styled.div`
   background-color: #f3b578;
   padding: 80px 20px 20px;
+  height: 100vh;
   overflow-y: auto;
   position: absolute;
   down: 0;
@@ -58,6 +59,7 @@ function App() {
       <div className="split-screen">
         <SidebarComponent agregarTarea={agregarTarea}/>
         <MainContentArea>
+          <h2>Tareas</h2>
           <CardComponent tareas={tareas} handleResolve={handleResolve} />
         </MainContentArea>
       </div>

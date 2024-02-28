@@ -102,3 +102,52 @@ export const getTarea = (tareaId) => {
   });
 }
 
+export const updateEstadoTarea = (tareaId, Estado) => {
+  return fetch(`${url}/${baseId}/${tableId}/${tareaId}`, {
+      method: 'PATCH',
+      headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          fields: {
+              "Estado": Estado
+          }
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Error al actualizar el estado de la tarea');
+      }
+      console.log('Estado de la tarea actualizado con éxito');
+  })
+  .catch(error => {
+      console.error('Error:', error.message);
+      throw error;
+  });
+}
+
+export const updateDuracionTarea = (tareaId, Duracion) => {
+  return fetch(`${url}/${baseId}/${tableId}/${tareaId}`, {
+      method: 'PATCH',
+      headers: {
+          'Authorization': `Bearer ${apiKey}`,
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+          fields: {
+              "Duracion": Duracion
+          }
+      })
+  })
+  .then(response => {
+      if (!response.ok) {
+          throw new Error('Error al actualizar la duración de la tarea');
+      }
+      console.log('Duración de la tarea actualizada con éxito');
+  })
+  .catch(error => {
+      console.error('Error:', error.message);
+      throw error;
+  });
+}

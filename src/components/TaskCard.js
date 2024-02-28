@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Form from 'react-bootstrap/Form';
+import { updateEstadoTarea } from '../api/airtable';
 
 function TareasCards({ tareas, handleResolve }) {
   const asignarColorPrioridad = (prioridad) => {
@@ -17,6 +19,37 @@ function TareasCards({ tareas, handleResolve }) {
       default:
         return 'light';
     }
+  };
+
+  const [editedTareas, setEditedTareas] = useState({});
+
+  const handleEstadoChange = (tareaId, estado) => {
+    setEditedTareas({
+      ...editedTareas,
+      [tareaId]: {
+        ...editedTareas[tareaId],
+        Estado: estado
+      }
+    });
+
+    // Aquí actualizamos el estado de la tarea
+    updateEstadoTarea(tareaId, estado)
+      .then(() => {
+        console.log('Estado de la tarea actualizado correctamente');
+      })
+      .catch(error => {
+        console.error('Error al actualizar el estado de la tarea:', error);
+      });
+  };
+
+  const handleDuracionChange = (tareaId, duracion) => {
+    setEditedTareas({
+      ...editedTareas,
+      [tareaId]: {
+        ...editedTareas[tareaId],
+        Duracion: duracion
+      }
+    });
   };
 
   const cardTextStyle = {
@@ -47,7 +80,16 @@ function TareasCards({ tareas, handleResolve }) {
                   <strong>Descripción:</strong> {tarea.fields.Descripcion}
                 </Card.Text>
                 <Card.Text style={cardTextStyle}>
-                  <strong>Estado:</strong> {tarea.fields.Estado}
+                  <strong>Estado:</strong>{' '}
+                  <Form.Control
+                    as="select"
+                    value={editedTareas[tarea.id]?.Estado || tarea.fields.Estado}
+                    onChange={(e) => handleEstadoChange(tarea.id, e.target.value)}
+                  >
+                    <option value="Nueva">Nueva</option>
+                    <option value="En curso">En curso</option>
+                    <option value="Completada">Completada</option>
+                  </Form.Control>
                 </Card.Text>
                 <Card.Text style={cardTextStyle}>
                   <strong>Prioridad:</strong> {tarea.fields.Prioridad}
@@ -59,9 +101,16 @@ function TareasCards({ tareas, handleResolve }) {
                   <strong>Fecha de Vencimiento:</strong> {tarea.fields['Fecha-Vencimiento']}
                 </Card.Text>
                 <Card.Text style={cardTextStyle}>
-                  <strong>Duración:</strong> {tarea.fields.Duracion} segundos
+                  <strong>Duración:</strong>{' '}
+                  <Form.Control
+                    type="time"
+                    value={editedTareas[tarea.id]?.Duracion || tarea.fields.Duracion}
+                    onChange={(e) => handleDuracionChange(tarea.id, e.target.value)}
+                  />
                 </Card.Text>
-                <Button variant="primary" onClick={() => handleResolve(tarea.id)}>Resolver</Button>
+                <Button variant="primary" onClick={() => handleResolve(tarea.id)}>
+                  Resolver
+                </Button>
               </Card.Body>
             </Card>
           </Col>
