@@ -15,11 +15,11 @@ const AppContainer = styled.div`
 const MainContentArea = styled.div`
   background-color: #f3b578;
   padding: 80px 20px 20px;
-  overflow-y: auto; /* Permitir scroll en el contenido principal si es necesario */
+  overflow-y: auto;
   position: absolute;
   down: 0;
   right: 0;
-  width: 80%; /* O ajusta según sea necesario */
+  width: 80%;
 `;
 
 function App() {

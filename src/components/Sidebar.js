@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import { createTarea } from '../api/airtable';
+import { createTarea, getTarea } from '../api/airtable';
 
 import DatePicker from 'react-datepicker';
 import es from 'date-fns/locale/es';
@@ -22,7 +22,7 @@ function SidebarComponent( {agregarTarea} ) {
   const [prioridad, setPrioridad] = useState("");
   const [prioridadError, setPrioridadError] = useState(false); // Estado para el error de prioridad
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const titulo = event.target.elements.titulo.value;
@@ -34,16 +34,13 @@ function SidebarComponent( {agregarTarea} ) {
       return;
     }
 
-    createTarea(titulo, descripcion, prioridad, fechaVencimiento, 0, "Nueva")
-    .then(idTarea => {
-      console.log('ID de la tarea creada:', idTarea);
-      // Actualizar la lista de tareas en App.js
-      const nuevaTarea = { id: idTarea, titulo, descripcion, prioridad, fechaVencimiento, estado: "Nueva" };
+    try {
+      const idTarea = await createTarea(titulo, descripcion, prioridad, fechaVencimiento, 0, "Nueva");
+      const nuevaTarea = await getTarea(idTarea);
       agregarTarea(nuevaTarea);
-    })
-    .catch(error => {
-      console.error('Error al crear la tarea:', error);
-    });  
+    } catch (error) {
+      console.error('Error al crear o obtener la tarea:', error);
+    }
   };
 
   return (
