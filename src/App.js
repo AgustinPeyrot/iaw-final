@@ -4,24 +4,22 @@ import styled from 'styled-components';
 import NavbarComponent from './components/Navbar';
 import SidebarComponent from './components/Sidebar';
 import CardComponent from './components/TaskCard';
-import { getTareas, deleteTarea } from './routes/airtable';
+import { getTareas, deleteTarea } from './api/airtable';
 
 const AppContainer = styled.div`
-  .split-screen {
-    display: flex;
-    height: 100vh;
-  }
-
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    display: flex;
-  }
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 `;
 
 const MainContentArea = styled.div`
-  flex: 1;
-  padding: 20px;
+  background-color: #f3b578;
+  padding: 80px 20px 20px;
+  overflow-y: auto; /* Permitir scroll en el contenido principal si es necesario */
+  position: absolute;
+  down: 0;
+  right: 0;
+  width: 80%; /* O ajusta según sea necesario */
 `;
 
 function App() {

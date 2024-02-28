@@ -19,34 +19,46 @@ function TareasCards({ tareas, handleResolve }) {
     }
   };
 
+  const cardTextStyle = {
+    marginBottom: '5px'
+  };
+
+  const cardBodyStyle = {
+    padding: '10px'
+  };
+
+  const cardStyle = {
+    marginBottom: '10px'
+  };
+
   return (
     <Container fluid>
-      <Row xs={1} md={2} lg={3} xl={4}>
+      <Row xs={1} sm={2} md={3} lg={4} xl={4}>
         {tareas.map((tarea, index) => (
-          <Col key={tarea.id} className="mb-2">
+          <Col key={tarea.id} className="mb-3">
             <Card
               bg={asignarColorPrioridad(tarea.fields.Prioridad)}
-              style={{ width: '18rem' }}
+              style={{ ...cardStyle }}
               className="mb-3"
             >
               <Card.Header>{tarea.fields.Nombre}</Card.Header>
-              <Card.Body>
-                <Card.Text>
+              <Card.Body style={cardBodyStyle}>
+                <Card.Text style={cardTextStyle}>
                   <strong>Descripción:</strong> {tarea.fields.Descripcion}
                 </Card.Text>
-                <Card.Text>
+                <Card.Text style={cardTextStyle}>
                   <strong>Estado:</strong> {tarea.fields.Estado}
                 </Card.Text>
-                <Card.Text>
+                <Card.Text style={cardTextStyle}>
                   <strong>Prioridad:</strong> {tarea.fields.Prioridad}
                 </Card.Text>
-                <Card.Text>
+                <Card.Text style={cardTextStyle}>
                   <strong>Fecha de Inicio:</strong> {tarea.fields['Fecha-Inicio']}
                 </Card.Text>
-                <Card.Text>
+                <Card.Text style={cardTextStyle}>
                   <strong>Fecha de Vencimiento:</strong> {tarea.fields['Fecha-Vencimiento']}
                 </Card.Text>
-                <Card.Text>
+                <Card.Text style={cardTextStyle}>
                   <strong>Duración:</strong> {tarea.fields.Duracion} segundos
                 </Card.Text>
                 <Button variant="primary" onClick={() => handleResolve(tarea.id)}>Resolver</Button>

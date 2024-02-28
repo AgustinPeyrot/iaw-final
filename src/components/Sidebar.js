@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import { createTarea } from '../routes/airtable';
+import { createTarea } from '../api/airtable';
 
 import DatePicker from 'react-datepicker';
 import es from 'date-fns/locale/es';
@@ -9,9 +9,12 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Sidebar = styled.div`
-  width: 17%;
-  background-color: #f0f0f0;
-  padding: 20px;
+  width: 20%;
+  background-color: #f78376;
+  padding: 80px 20px 20px;
+  height: 100vh;
+  position: fixed;
+  left: 0;
 `;
 
 function SidebarComponent() {
@@ -31,7 +34,7 @@ function SidebarComponent() {
       return;
     }
 
-    createTarea(titulo, descripcion, prioridad, fechaVencimiento, 6000, "Nueva")
+    createTarea(titulo, descripcion, prioridad, fechaVencimiento, 0, "Nueva")
     .then(idTarea => {
       console.log('ID de la tarea creada:', idTarea);
     })
@@ -55,7 +58,7 @@ function SidebarComponent() {
             value={prioridad}
             onChange={(e) => {
               setPrioridad(e.target.value);
-              setPrioridadError(false);//oculta el error al seleccionar una prioridad
+              setPrioridadError(false);
             }}
           >
             <option value="">Seleccione una prioridad</option>
@@ -74,7 +77,7 @@ function SidebarComponent() {
               locale={es}
             />
           </div>
-          <Button type="submit" variant="primary">Crear Tarea</Button>{' '}
+          <Button type="submit" variant="primary" style={{ marginTop: '10px' }}>Crear Tarea</Button>
         </form>
       </div>
     </Sidebar>
