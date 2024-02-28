@@ -15,15 +15,19 @@ const AppContainer = styled.div`
 const MainContentArea = styled.div`
   background-color: #f3b578;
   padding: 80px 20px 20px;
-  overflow-y: auto; /* Permitir scroll en el contenido principal si es necesario */
+  overflow-y: auto;
   position: absolute;
   down: 0;
   right: 0;
-  width: 80%; /* O ajusta según sea necesario */
+  width: 80%;
 `;
 
 function App() {
   const [tareas, setTareas] = useState([]);
+
+  const agregarTarea = (nuevaTarea) => {
+    setTareas([...tareas, nuevaTarea]);
+  };
 
   const handleResolve = async (id) => {
     try {
@@ -52,7 +56,7 @@ function App() {
     <AppContainer className="App">
       <NavbarComponent />
       <div className="split-screen">
-        <SidebarComponent />
+        <SidebarComponent agregarTarea={agregarTarea}/>
         <MainContentArea>
           <CardComponent tareas={tareas} handleResolve={handleResolve} />
         </MainContentArea>

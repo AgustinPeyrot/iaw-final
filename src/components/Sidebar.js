@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import styled from 'styled-components';
-import { createTarea } from '../api/airtable';
+import { createTarea, getTarea } from '../api/airtable';
 
 import DatePicker from 'react-datepicker';
 import es from 'date-fns/locale/es';
@@ -17,12 +17,12 @@ const Sidebar = styled.div`
   left: 0;
 `;
 
-function SidebarComponent() {
+function SidebarComponent( {agregarTarea} ) {
   const [startDate, setStartDate] = useState(new Date());
   const [prioridad, setPrioridad] = useState("");
   const [prioridadError, setPrioridadError] = useState(false); // Estado para el error de prioridad
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     const titulo = event.target.elements.titulo.value;
@@ -34,11 +34,13 @@ function SidebarComponent() {
       return;
     }
 
-    createTarea(titulo, descripcion, prioridad, fechaVencimiento, 0, "Nueva")
-    .then(idTarea => {
-      console.log('ID de la tarea creada:', idTarea);
-    })
-    console.log("Formulario enviado");
+    try {
+      const idTarea = await createTarea(titulo, descripcion, prioridad, fechaVencimiento, 0, "Nueva");
+      const nuevaTarea = await getTarea(idTarea);
+      agregarTarea(nuevaTarea);
+    } catch (error) {
+      console.error('Error al crear o obtener la tarea:', error);
+    }
   };
 
   return (

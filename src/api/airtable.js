@@ -84,7 +84,7 @@ export const deleteTarea = (tareaId) => {
 }
 
 export const getTarea = (tareaId) => {
-  fetch(`${url}/${baseId}/${tableId}/${tareaId}`, {
+  return fetch(`${url}/${baseId}/${tableId}/${tareaId}`, {
       method: 'GET',
       headers: {
           'Authorization': `Bearer ${apiKey}`
@@ -96,10 +96,9 @@ export const getTarea = (tareaId) => {
       }
       return response.json();
   })
-  .then(data => {
-      console.log('Tarea obtenida con éxito:', data);
-  })
   .catch(error => {
       console.error('Error:', error.message);
+      throw error;
   });
 }
+
