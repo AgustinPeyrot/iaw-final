@@ -17,7 +17,7 @@ const Sidebar = styled.div`
   left: 0;
 `;
 
-function SidebarComponent() {
+function SidebarComponent( {agregarTarea} ) {
   const [startDate, setStartDate] = useState(new Date());
   const [prioridad, setPrioridad] = useState("");
   const [prioridadError, setPrioridadError] = useState(false); // Estado para el error de prioridad
@@ -37,8 +37,13 @@ function SidebarComponent() {
     createTarea(titulo, descripcion, prioridad, fechaVencimiento, 0, "Nueva")
     .then(idTarea => {
       console.log('ID de la tarea creada:', idTarea);
+      // Actualizar la lista de tareas en App.js
+      const nuevaTarea = { id: idTarea, titulo, descripcion, prioridad, fechaVencimiento, estado: "Nueva" };
+      agregarTarea(nuevaTarea);
     })
-    console.log("Formulario enviado");
+    .catch(error => {
+      console.error('Error al crear la tarea:', error);
+    });  
   };
 
   return (

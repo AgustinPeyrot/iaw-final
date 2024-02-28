@@ -25,6 +25,10 @@ const MainContentArea = styled.div`
 function App() {
   const [tareas, setTareas] = useState([]);
 
+  const agregarTarea = (nuevaTarea) => {
+    setTareas([...tareas, nuevaTarea]);
+  };
+
   const handleResolve = async (id) => {
     try {
       await deleteTarea(id);
@@ -52,7 +56,7 @@ function App() {
     <AppContainer className="App">
       <NavbarComponent />
       <div className="split-screen">
-        <SidebarComponent />
+        <SidebarComponent agregarTarea={agregarTarea}/>
         <MainContentArea>
           <CardComponent tareas={tareas} handleResolve={handleResolve} />
         </MainContentArea>
