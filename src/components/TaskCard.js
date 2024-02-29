@@ -11,13 +11,13 @@ function TareasCards({ tareas, handleResolve }) {
   const asignarColorPrioridad = (prioridad) => {
     switch (prioridad) {
       case 'Baja':
-        return 'success';
+        return '#3CE467';
       case 'Media':
-        return 'warning';
+        return '#E4D73C';
       case 'Alta':
-        return 'danger';
+        return '#DC5656';
       default:
-        return 'light';
+        return '#F0F7F2';
     }
   };
 
@@ -32,7 +32,6 @@ function TareasCards({ tareas, handleResolve }) {
       }
     });
 
-    // Aquí actualizamos el estado de la tarea
     updateEstadoTarea(tareaId, estado)
       .then(() => {
         console.log('Estado de la tarea actualizado correctamente');
@@ -40,16 +39,6 @@ function TareasCards({ tareas, handleResolve }) {
       .catch(error => {
         console.error('Error al actualizar el estado de la tarea:', error);
       });
-  };
-
-  const handleDuracionChange = (tareaId, duracion) => {
-    setEditedTareas({
-      ...editedTareas,
-      [tareaId]: {
-        ...editedTareas[tareaId],
-        Duracion: duracion
-      }
-    });
   };
 
   const cardTextStyle = {
@@ -69,44 +58,37 @@ function TareasCards({ tareas, handleResolve }) {
       <Row xs={1} sm={2} md={3} lg={4} xl={4}>
         {tareas.map((tarea, index) => (
           <Col key={tarea.id} className="mb-3">
-            <Card
-              bg={asignarColorPrioridad(tarea.fields.Prioridad)}
-              style={{ ...cardStyle }}
-              className="mb-3"
-            >
-              <Card.Header>{tarea.fields.Nombre}</Card.Header>
+            <Card style={{ ...cardStyle }} className="mb-3">
+              <Card.Header style={{ backgroundColor: asignarColorPrioridad(tarea.fields.Prioridad) }}>
+                {tarea.fields.Nombre}
+              </Card.Header>
               <Card.Body style={cardBodyStyle}>
                 <Card.Text style={cardTextStyle}>
                   <strong>Descripción:</strong> {tarea.fields.Descripcion}
                 </Card.Text>
                 <Card.Text style={cardTextStyle}>
                   <strong>Estado:</strong>{' '}
-                  <Form.Control
-                    as="select"
-                    value={editedTareas[tarea.id]?.Estado || tarea.fields.Estado}
-                    onChange={(e) => handleEstadoChange(tarea.id, e.target.value)}
-                  >
-                    <option value="Nueva">Nueva</option>
-                    <option value="En curso">En curso</option>
-                    <option value="Completada">Completada</option>
-                  </Form.Control>
+                  <span style={{ float: 'right' }}>
+                    <Form.Control
+                      as="select"
+                      size="sm"
+                      value={editedTareas[tarea.id]?.Estado || tarea.fields.Estado}
+                      onChange={(e) => handleEstadoChange(tarea.id, e.target.value)}
+                    >
+                      <option value="Nueva">Nueva</option>
+                      <option value="En curso">En curso</option>
+                      <option value="Completada">Completada</option>
+                    </Form.Control>
+                  </span>
                 </Card.Text>
                 <Card.Text style={cardTextStyle}>
                   <strong>Prioridad:</strong> {tarea.fields.Prioridad}
                 </Card.Text>
                 <Card.Text style={cardTextStyle}>
-                  <strong>Fecha de Inicio:</strong> {tarea.fields['Fecha-Inicio']}
+                  <strong>Fecha Inicio:</strong> {tarea.fields['Fecha-Inicio']}
                 </Card.Text>
                 <Card.Text style={cardTextStyle}>
-                  <strong>Fecha de Vencimiento:</strong> {tarea.fields['Fecha-Vencimiento']}
-                </Card.Text>
-                <Card.Text style={cardTextStyle}>
-                  <strong>Duración:</strong>{' '}
-                  <Form.Control
-                    type="time"
-                    value={editedTareas[tarea.id]?.Duracion || tarea.fields.Duracion}
-                    onChange={(e) => handleDuracionChange(tarea.id, e.target.value)}
-                  />
+                  <strong>Fecha Vencimiento:</strong> {tarea.fields['Fecha-Vencimiento']}
                 </Card.Text>
                 <Button variant="primary" onClick={() => handleResolve(tarea.id)}>
                   Resolver

@@ -64,9 +64,9 @@ function SidebarComponent( {agregarTarea} ) {
             }}
           >
             <option value="">Seleccione una prioridad</option>
-            <option value="Baja" style={{ backgroundColor: 'green' }}>Baja</option>
-            <option value="Media" style={{ backgroundColor: 'yellow' }}>Media</option>
-            <option value="Alta" style={{ backgroundColor: 'red' }}>Alta</option>
+            <option value="Baja" style={{ backgroundColor: '#3CE467' }}>Baja</option>
+            <option value="Media" style={{ backgroundColor: '#E4D73C' }}>Media</option>
+            <option value="Alta" style={{ backgroundColor: '#DC5656' }}>Alta</option>
           </select>
           {prioridadError && <div className="invalid-feedback">Por favor, seleccione una prioridad.</div>}
           <div className="form-group">
