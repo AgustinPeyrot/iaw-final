@@ -17,27 +17,33 @@ const Sidebar = styled.div`
   left: 0;
 `;
 
-function SidebarComponent( {agregarTarea} ) {
+function SidebarComponent({ agregarTarea }) {
   const [startDate, setStartDate] = useState(new Date());
   const [prioridad, setPrioridad] = useState("");
   const [prioridadError, setPrioridadError] = useState(false); // Estado para el error de prioridad
+  const [titulo, setTitulo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const titulo = event.target.elements.titulo.value;
-    const descripcion = event.target.elements.descripcion.value;
-    const fechaVencimiento = startDate.toISOString().split('T')[0];
-
     if (!prioridad) {
-      setPrioridadError(true); //muestra error sino se selecciona prioridad
+      setPrioridadError(true); // Muestra error si no se selecciona prioridad
       return;
     }
 
     try {
+      const fechaVencimiento = startDate.toISOString().split('T')[0];
       const idTarea = await createTarea(titulo, descripcion, prioridad, fechaVencimiento, 0, "Nueva");
       const nuevaTarea = await getTarea(idTarea);
       agregarTarea(nuevaTarea);
+
+      // Reiniciar campos después de crear la tarea
+      setTitulo("");
+      setDescripcion("");
+      setPrioridad("");
+      setStartDate(new Date());
+      setPrioridadError(false);
     } catch (error) {
       console.error('Error al crear o obtener la tarea:', error);
     }
@@ -48,10 +54,24 @@ function SidebarComponent( {agregarTarea} ) {
       <div>
         <form onSubmit={handleSubmit}>
           <label htmlFor="titulo">Titulo</label>
-          <input className="form-control form-control-sm" type="text" placeholder="Escribe un titulo..." id="titulo" />
+          <input
+            className="form-control form-control-sm"
+            type="text"
+            placeholder="Escribe un titulo..."
+            id="titulo"
+            value={titulo}
+            onChange={(e) => setTitulo(e.target.value)}
+          />
           <div className="form-group">
             <label htmlFor="descripcion">Descripcion</label>
-            <textarea className="form-control" rows="3" placeholder="Descripcion" id="descripcion"></textarea>
+            <textarea
+              className="form-control"
+              rows="3"
+              placeholder="Descripcion"
+              id="descripcion"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+            ></textarea>
           </div>
           <label htmlFor="prioridad">Prioridad</label>
           <select
