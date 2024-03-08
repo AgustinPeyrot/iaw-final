@@ -4,7 +4,7 @@ import Container from 'react-bootstrap/Container';
 
 function NavbarComponent() {
   const navbarStyle = {
-    backgroundColor: '#3f3557',
+    backgroundColor: '#136163',
     color: 'white',
   };
 
@@ -15,6 +15,8 @@ function NavbarComponent() {
 
   const brandStyle = {
     color: 'white',
+    fontSize: '30px',
+    fontWeight: 'bold',
   };
 
   return (

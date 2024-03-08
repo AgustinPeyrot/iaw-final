@@ -13,7 +13,7 @@ const AppContainer = styled.div`
 `;
 
 const MainContentArea = styled.div`
-  background-color: #f3b578;
+  background-color: #95CAC8;
   padding: 80px 20px 20px;
   height: 100vh;
   overflow-y: auto;

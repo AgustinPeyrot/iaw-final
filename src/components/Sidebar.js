@@ -10,11 +10,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Sidebar = styled.div`
   width: 20%;
-  background-color: #f78376;
+  background-color: #F9C770;
   padding: 80px 20px 20px;
   height: 100vh;
   position: fixed;
   left: 0;
+`;
+
+const Label = styled.label`
+  font-size: 20px;
+  font-weight: bold;
 `;
 
 function SidebarComponent({ agregarTarea }) {
@@ -53,7 +58,7 @@ function SidebarComponent({ agregarTarea }) {
     <Sidebar>
       <div>
         <form onSubmit={handleSubmit}>
-          <label htmlFor="titulo">Titulo</label>
+          <Label htmlFor="titulo">Titulo</Label>
           <input
             className="form-control form-control-sm"
             type="text"
@@ -63,7 +68,7 @@ function SidebarComponent({ agregarTarea }) {
             onChange={(e) => setTitulo(e.target.value)}
           />
           <div className="form-group">
-            <label htmlFor="descripcion">Descripcion</label>
+            <Label htmlFor="descripcion">Descripcion</Label>
             <textarea
               className="form-control"
               rows="3"
@@ -73,7 +78,7 @@ function SidebarComponent({ agregarTarea }) {
               onChange={(e) => setDescripcion(e.target.value)}
             ></textarea>
           </div>
-          <label htmlFor="prioridad">Prioridad</label>
+          <Label htmlFor="prioridad">Prioridad</Label>
           <select
             className={`form-control form-control-sm ${prioridadError ? 'is-invalid' : ''}`}
             id="prioridad"
@@ -84,13 +89,13 @@ function SidebarComponent({ agregarTarea }) {
             }}
           >
             <option value="">Seleccione una prioridad</option>
-            <option value="Baja" style={{ backgroundColor: '#3CE467' }}>Baja</option>
-            <option value="Media" style={{ backgroundColor: '#E4D73C' }}>Media</option>
-            <option value="Alta" style={{ backgroundColor: '#DC5656' }}>Alta</option>
+            <option value="Baja" style={{ backgroundColor: '#28B463' }}>Baja</option>
+            <option value="Media" style={{ backgroundColor: '#D4AC0D' }}>Media</option>
+            <option value="Alta" style={{ backgroundColor: '#BA4A00' }}>Alta</option>
           </select>
           {prioridadError && <div className="invalid-feedback">Por favor, seleccione una prioridad.</div>}
           <div className="form-group">
-            <label htmlFor="fechaVencimiento">Fecha de vencimiento</label><br />
+            <Label htmlFor="fechaVencimiento">Fecha de vencimiento</Label><br />
             <DatePicker
               selected={startDate}
               onChange={(date) => setStartDate(date)}
@@ -99,7 +104,7 @@ function SidebarComponent({ agregarTarea }) {
               locale={es}
             />
           </div>
-          <Button type="submit" variant="primary" style={{ marginTop: '10px' }}>Crear Tarea</Button>
+          <Button type="submit" variant="light" style={{ marginTop: '10px' }}>Crear Tarea</Button>
         </form>
       </div>
     </Sidebar>

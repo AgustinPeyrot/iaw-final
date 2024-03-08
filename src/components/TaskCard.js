@@ -11,13 +11,13 @@ function TareasCards({ tareas, handleResolve }) {
   const asignarColorPrioridad = (prioridad) => {
     switch (prioridad) {
       case 'Baja':
-        return '#3CE467';
+        return '#28B463';
       case 'Media':
-        return '#E4D73C';
+        return '#D4AC0D';
       case 'Alta':
-        return '#DC5656';
+        return '#BA4A00';
       default:
-        return '#F0F7F2';
+        return '#76448A';
     }
   };
 
@@ -50,7 +50,15 @@ function TareasCards({ tareas, handleResolve }) {
   };
 
   const cardStyle = {
-    marginBottom: '10px'
+    marginBottom: '10px',
+    boxShadow: '0 4px 8px 0 rgba(0,0,0,0.2)',
+    transition: '0.3s',
+    borderRadius: '5px',
+    border: '1px solid black'
+  };
+
+  const cardTitleStyle = {
+    fontWeight: 'bold'
   };
 
   return (
@@ -60,7 +68,7 @@ function TareasCards({ tareas, handleResolve }) {
           <Col key={tarea.id} className="mb-3">
             <Card style={{ ...cardStyle }} className="mb-3">
               <Card.Header style={{ backgroundColor: asignarColorPrioridad(tarea.fields.Prioridad) }}>
-                {tarea.fields.Nombre}
+                <span style={cardTitleStyle}>{tarea.fields.Nombre}</span>
               </Card.Header>
               <Card.Body style={cardBodyStyle}>
                 <Card.Text style={cardTextStyle}>
@@ -90,7 +98,7 @@ function TareasCards({ tareas, handleResolve }) {
                 <Card.Text style={cardTextStyle}>
                   <strong>Fecha Vencimiento:</strong> {tarea.fields['Fecha-Vencimiento']}
                 </Card.Text>
-                <Button variant="primary" onClick={() => handleResolve(tarea.id)}>
+                <Button variant="secondary" onClick={() => handleResolve(tarea.id)}>
                   Resolver
                 </Button>
               </Card.Body>
