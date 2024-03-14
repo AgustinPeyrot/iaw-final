@@ -39,32 +39,38 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## Testing with Playwright
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+This project includes a battery of tests using [Playwright](https://playwright.dev/). Playwright is a Node library for automating browsers, which allows you to write end-to-end tests that simulate user interactions within your application.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+To run Playwright tests, you can run the following commands:
 
-### Code Splitting
+### Run all tests:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+```
+npx playwright test
+```
 
-### Analyzing the Bundle Size
+### Run tests on specific environment:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+```
+ENV=prod npx playwright test
+```
 
-### Making a Progressive Web App
+### Run tests by title -g(grep):
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```
+npx playwright test example.spec.ts --grep "should get users from page 2"
+```
 
-### Advanced Configuration
+### Run tests by Line number:
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+npx playwright test example.spec.ts:32
+```
 
-### Deployment
+### Run tests by Line number
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
+npx playwright test example.spec.ts
+```
