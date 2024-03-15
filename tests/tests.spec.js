@@ -1,7 +1,10 @@
 const { test, expect } = require('@playwright/test');
 
 test.beforeEach(async ({ page }) => {
+    //si no se quiere correr local se puede correr los test en la app desplegada en vercel
+    //await page.goto('https://task-hub-zeta.vercel.app/');
     await page.goto('http://localhost:3000/');
+
     page.setDefaultTimeout(60000);
 });
 
