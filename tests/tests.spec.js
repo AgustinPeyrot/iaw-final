@@ -18,6 +18,7 @@ test.describe('Testing Form', () => {
             await page.selectOption('[id="prioridad"]', { label: prioridadAleatoria });
 
             await page.click('[id="fechaVencimiento"]');
+            await page.waitForSelector('[class="react-datepicker__input-container"] > input');
             await page.fill('[class="react-datepicker__input-container"] > input', '03/03/2024');
 
             await page.getByLabel('Fecha de vencimiento').click();
@@ -26,12 +27,30 @@ test.describe('Testing Form', () => {
 
             await page.getByRole('button', { name: 'Crear Tarea' }).click();
 
-            await page.waitForTimeout(3000); //para esperar un poco entre tarea y tarea
+            await page.waitForTimeout(1500); //para esperar un poco entre tarea y tarea
         }
+    })
+
+    test('Sin seleccion de prioridades', async ({ page }) => {
+        await page.getByLabel('titulo').fill(`Sin prioridad`);
+        await page.getByLabel('descripcion').fill(`Esta tarea no deberia poder ser creada`);
+        
+        await page.waitForTimeout(1000);
+        await page.click('[id="fechaVencimiento"]');
+        await page.fill('[class="react-datepicker__input-container"] > input', '03/03/2024');
+        await page.getByLabel('Fecha de vencimiento').click();
+        await page.getByLabel('Next Month').click();
+        await page.getByLabel('Choose viernes, 19 de abril de').click();
+
+        await page.getByRole('button', { name: 'Crear Tarea' }).click();
+
+        await page.waitForTimeout(5000);
+        const errorMessage = await page.isVisible('.invalid-feedback');
+        expect(errorMessage).toBeTruthy();
     })
 })
 
-test('Resolver todas las tareas', async ({ page }) => { //esto no anda si no hay tareas creadas previamente
+test('Resolver todas las tareas', async ({ page }) => {
     let tasksResolved = true;
   
     while (tasksResolved) {
@@ -46,7 +65,7 @@ test('Resolver todas las tareas', async ({ page }) => { //esto no anda si no hay
     }
 });
 
-test('Pongo todas las tareas en estado "En curso"', async ({ page }) => {
+test('Pongo todas las tareas en estado "En curso"', async ({ page }) => { //este test requiere que haya tareas creadas
     
     //espera que las tarjetas estén disponibles en la página
     await page.waitForSelector('div.mb-3.col');
@@ -59,7 +78,7 @@ test('Pongo todas las tareas en estado "En curso"', async ({ page }) => {
     }
 });
 
-test('Asignar estados aleatorios a las tareas', async ({ page }) => { //esto no anda si no hay tareas creadas al igual que el de arriba
+test('Asignar estados aleatorios a las tareas', async ({ page }) => { //este test requiere que haya tareas creadas
     await page.waitForSelector('div.mb-3.col');
 
     const cardCount = await page.$$eval('div.mb-3.col', divs => divs.length);
@@ -76,7 +95,7 @@ test('Asignar estados aleatorios a las tareas', async ({ page }) => { //esto no 
     }
 });
 
-test('Capturar los titulos de todas las tareas', async ({ page }) => {
+test('Capturar los titulos de todas las tareas', async ({ page }) => {//este test requiere que haya tareas creadas
     await page.waitForSelector('div.mb-3.col');
 
     const taskTitles = await page.$$eval('div.mb-3.col > div.card > div.card-header > span', elements =>
@@ -92,8 +111,8 @@ test('Capturar los titulos de todas las tareas', async ({ page }) => {
 
 
 test('Automatizacion del proceo completo, con capturas', async ({ page }) => {
-    await page.waitForSelector('div.mb-3.col');//espera por las cards
-  
+    await page.waitForTimeout(4000);
+
     await page.getByPlaceholder('Escribe un titulo...').click();
     await page.getByPlaceholder('Escribe un titulo...').press('CapsLock');
     await page.getByPlaceholder('Escribe un titulo...').fill('Tarea grabada');
@@ -110,15 +129,15 @@ test('Automatizacion del proceo completo, con capturas', async ({ page }) => {
     const cardCount = await page.$$eval('div.mb-3.col', divs => divs.length)+1;
     console.log("el numero de la ultima card creada es: "+cardCount);
   
-    await page.waitForTimeout(1000);
+    await page.waitForTimeout(3000);
     await page.screenshot({path: 'tests/screenshots/nueva.png', fullPage: true});//captura luego de crear
   
     await page.waitForSelector(`div:nth-child(${cardCount}) > .mb-3 > .card-body > .btn`, { timeout: 3000 });
   
     await page.locator(`div:nth-child(${cardCount}) > .mb-3 > .card-body > p:nth-child(2) > span > .form-control`).selectOption('Completada');
     
-    await page.waitForTimeout(1000);
-    await page.screenshot({path: 'tests/screenshots/completada.png', fullPage: true});//captura despues de que este completada
+    await page.waitForTimeout(5000);
+    await page.screenshot({path: 'tests/screenshots/completada.png', fullPage: true});//captura despues de marcar como completada
   
     await page.waitForSelector(`div:nth-child(${cardCount}) > .mb-3 > .card-body > .btn.btn-secondary`, { timeout: 10000 }); 
     await page.click(`div:nth-child(${cardCount}) > .mb-3 > .card-body > .btn.btn-secondary`);  
